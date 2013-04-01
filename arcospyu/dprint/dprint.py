@@ -15,42 +15,62 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from arcospyu.print_colors import Pcolors as c
+import inspect as ins
+
 class Dprint(object):
     INFO=0
     DEBUG=1
     WARN=2
     ERROR=3
+    CALL_LEVEL_FIRST_FILE=-1
+    CALL_LEVEL_LAST_FILE=2
 
-    def __init__(self, level=INFO):
+    def __init__(self, level=INFO, longfilename=False):
         self.level=level
+        self.longfilename=longfilename
 
     def set_level(self, level):
         self.level=level
 
+    def pfile(self, call_level=CALL_LEVEL_FIRST_FILE):
+        filename=ins.getfile(ins.getouterframes(ins.currentframe())[call_level][0])
+        if not self.longfilename:
+            return(filename.split("/")[-1])
+
     def iprint(self, *args):
         if self.level<=0:
-            print "["+__file__+"]",
+            print "["+self.pfile()+"]",
             for arg in args:
                 print arg,
             print
 
     def dprint(self, *args):
         if self.level<=1:
-            print "["+__file__+"]",
+            print c.GREEN+"["+self.pfile()+"]",
             for arg in args:
                 print arg,
-            print
+            print c.END
+
+    def dcprint(self, *args):
+        if self.level<=1:
+            print c.GREEN+"["+self.pfile(call_level=self.CALL_LEVEL_LAST_FILE)+"]",
+            for arg in args:
+                print arg,
+            print c.END
 
     def wprint(self, *args):
         if self.level<=2:
-            print "["+__file__+"]",
+            print c.YELLOW+"["+self.pfile()+"]",
             for arg in args:
                 print arg,
-            print
+            print c.END
 
     def eprint(self, *args):
         if self.level<=3:
-            print "["+__file__+"]",
+            print c.RED+"["+self.pfile()+"]",
             for arg in args:
                 print arg,
-            print
+            print c.END
+
+

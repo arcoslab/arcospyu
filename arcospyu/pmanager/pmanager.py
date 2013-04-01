@@ -18,19 +18,40 @@
 from arcospyu.mypopen import MyPopen
 from arcospyu.dprint import iprint, dprint, eprint
 from time import sleep
-import signal
+import signal, os
+
+def which(program):
+    import os
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
+    fpath, fname = os.path.split(program)
+    if fpath:
+        if is_exe(program):
+            return program
+    else:
+        for path in os.environ["PATH"].split(os.pathsep):
+            path = path.strip('"')
+            exe_file = os.path.join(path, program)
+            if is_exe(exe_file):
+                return exe_file
+    return None
 
 class PManager(object):
     def __init__(self, processes_args=[]):
         self.processes_args=processes_args
         self.processes=[]
+        self.processes_name_pos=[]
 
     def start(self):
         for process_args in self.processes_args:
-            dprint("Starting process: ", process_args[0])
-            self.processes.append(MyPopen(process_args))
-            self.processes[-1].args=process_args
-            sleep(1)
+            filename=which(process_args[0])
+            if filename and os.path.exists(filename) and os.access(filename, os.X_OK):
+                dprint("Starting process: ", process_args[0])
+                self.processes.append(MyPopen([filename]+process_args[1:]))
+                self.processes[-1].args=process_args
+            else:
+                eprint("Executable", process_args[0], " not found, not starting process")
 
     def monitor(self):
         stop=False

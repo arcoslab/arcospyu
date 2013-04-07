@@ -22,6 +22,19 @@
 import optparse
 import sys, os
 
+
+def import_config(filename):
+    config_filename_path=reduce(lambda x,y: x+"/"+y, filename.split("/")[:-1])
+    print "Dir", config_filename_path
+    config_filename_name=filename.split("/")[-1]
+    print "ConfigFilename name:", config_filename_name
+    if not os.path.exists(filename):
+        print "Config filename: ", config_filename_name, " not found, exiting"
+        sys.exit(-1)
+    sys.path.append(config_filename_path)
+    config=__import__(reduce(lambda x,y: x+"."+y,config_filename_name.split(".")[:-1]))
+    return(config)
+
 class ConfigFileParser(object):
     def __init__(self,argv):
         self.argv=argv
@@ -35,16 +48,7 @@ class ConfigFileParser(object):
 
     def import_config(self):
         self.parse()
-        print "ConfigFilename:", self._config_filename
-        config_filename_path=reduce(lambda x,y: x+"/"+y, self._config_filename.split("/")[:-1])
-        print "Dir", config_filename_path
-        config_filename_name=self._config_filename.split("/")[-1]
-        print "ConfigFilename name:", config_filename_name
-        if not os.path.exists(self._config_filename):
-            print "Config filename: ", config_filename_name, " not found, exiting"
-            sys.exit(-1)
-        sys.path.append(config_filename_path)
-        self._config=__import__(reduce(lambda x,y: x+"."+y,config_filename_name.split(".")[:-1]))
+        self._config=import_config(self._config_filename)
 
     def get_config(self):
         self.import_config()
@@ -67,4 +71,3 @@ class ConfigFileParser(object):
 
 #     config.sim = sim
 #     return (config, args)
-

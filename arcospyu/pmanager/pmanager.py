@@ -52,6 +52,7 @@ class PManager(object):
                 self.processes[-1].args=process_args
             else:
                 eprint("Executable", process_args[0], " not found, not starting process")
+            #sleep(3)
 
     def monitor(self):
         stop=False
@@ -62,7 +63,7 @@ class PManager(object):
                     eprint("Process: ", process.args[0], " died! Closing all processes")
                     stop=True
             sleep(0.5)
-            dprint("Looping")
+            #dprint("Looping")
         if stop:
             self.stop()
 

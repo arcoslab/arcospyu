@@ -123,8 +123,8 @@ def yarp_connect_blocking(srcPort,dstPort,timeout=20.0, carrier='tcp'):
 
 import types
 
-def recur(bottle,list):
-    for item in list:
+def recur(bottle,ilist):
+    for item in ilist:
         if type(item)==types.FloatType:
             bottle.addDouble(item)
         elif type(item)==types.IntType:
@@ -137,12 +137,16 @@ def recur(bottle,list):
         else:
             print "Data type not allowed"
 
-def sendListPort(yarpPort,list):
+def sendListPort(yarpPort,ilist):
     bottle=yarpPort.prepare()
     bottle.clear()
-    recur(bottle,list)
+    recur(bottle,ilist)
     #map(bottle.addDouble,list)
     yarpPort.write()
+
+def yarp_write(dest_port, ilist, portname="/test"):
+  port=new_port(portname, 'out', dest_port)
+  sendListPort(port,ilist)
 
 def write_bottle_lists(yarp_port, list_of_lists):
     main_bottle=yarp_port.prepare()
@@ -164,8 +168,10 @@ def readListPort(yarpPort,blocking=False):
         return map(yarp.Value.asDouble,map(bottle.get,range(bottle.size())))
     else:
         return False
+
 def yarpListofDoublesToList(yarplist):
     return map(yarp.Value.asDouble,map(yarplist.get,range(yarplist.size())))
+
 def yarpListToList(yarplist):
     result=[]
     for i in map(yarplist.get,range(yarplist.size())):
@@ -178,7 +184,7 @@ def yarpListToList(yarplist):
         if i.isList():
             result.append(yarpListToList(i))
     return result
-    
+
 def listToKdlFrame(list):
     import PyKDL
     kdlframe=PyKDL.Frame()
@@ -192,7 +198,7 @@ def listToKdlFrame(list):
                 elif j==3 and i<3:
                     kdlframe.p[i]=list[j+i*4]
         return kdlframe
-    
+
 def kdlFrameToList(kdlframe):
     list=[]
     for i in range(4):

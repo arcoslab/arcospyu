@@ -15,7 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from numpy import array
 import PyKDL
+from arcospyu.dprint import eprint
+
+def frame_to_list(f):
+    temp=[]
+    for i in range(3):
+        for j in range(4):
+            temp.append(f[i,j])
+    temp+=[0.,0.,0.,1.]
+    #eprint("frame to list", temp)
+    return(temp)
 
 def narray_to_kdlframe(narray):
     kdlframe=PyKDL.Frame()

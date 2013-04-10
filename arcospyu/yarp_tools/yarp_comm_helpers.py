@@ -18,16 +18,7 @@
 import yarp
 yarp.Network.init()
 import time
-
-
-import __main__
-
-# if available, get the path to the yarp binary from roswrap
-if __main__.__file__.find('roswrap') >= 0:
-  __yarp_binary = __main__.yarp_binary_command()
-else:
-  __yarp_binary = "yarp"
-
+__yarp_binary="yarp"
 
 def change_ps_name(name):
     """Change process name as used by ps(1) and killall(1)."""

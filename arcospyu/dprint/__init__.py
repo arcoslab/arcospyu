@@ -7,6 +7,7 @@ dprint=d.dprint
 wprint=d.wprint
 eprint=d.eprint
 dcprint=d.dcprint
+dlevel=d.level
 
 def main():
     pass

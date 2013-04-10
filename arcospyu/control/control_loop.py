@@ -51,7 +51,7 @@ class Controlloop(object):
                 time.sleep(wait_time)
             else:
                 pass
-                #print "Warning: Cycle too slow", -wait_time, "Seconds late"
+                print "Warning: Cycle too slow", -wait_time, "Seconds late"
         self.end()
 
 def main():

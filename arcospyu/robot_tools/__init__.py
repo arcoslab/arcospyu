@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 from lafik import Lafik
+import robot_trans
+
 
 def main():
     pass

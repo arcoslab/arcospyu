@@ -9,6 +9,6 @@ setup(name='arcospyu',
       author='Federico Ruiz Ugalde',
       author_email='memeruiz@gmail.com',
       url='http://www.arcoslab.org/',
-      packages=['arcospyu', 'arcospyu.computer_graphics', 'arcospyu.config_parser', 'arcospyu.control', 'arcospyu.dprint', 'arcospyu.kdl_helpers', 'arcospyu.mypopen', 'arcospyu.numeric', 'arcospyu.print_colors', 'arcospyu.rawkey', 'arcospyu.pmanager', 'arcospyu.robot_tools', 'arcospyu.yarp_tools'],
+      packages=['arcospyu', 'arcospyu.computer_graphics', 'arcospyu.config_parser', 'arcospyu.control', 'arcospyu.dprint', 'arcospyu.kdl_helpers', 'arcospyu.mypopen', 'arcospyu.numeric', 'arcospyu.print_colors', 'arcospyu.rawkey', 'arcospyu.pmanager', 'arcospyu.robot_tools', 'arcospyu.yarp_tools', 'arcospyu.signal_proc'],
       scripts=['arcospyu/yarp_tools/bar_vis']
      )

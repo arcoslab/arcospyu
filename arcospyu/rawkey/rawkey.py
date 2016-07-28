@@ -38,7 +38,7 @@ class Raw_key():
             out.append(os.read(self.fd,1))
         while self.new_data(0.0):
             out.append(os.read(self.fd,1))
-        print out   
+        #print out   
         return(out)
 
     def get_num_chars(self,timeout=0):

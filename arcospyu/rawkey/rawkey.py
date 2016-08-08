@@ -38,7 +38,7 @@ class Raw_key():
             out.append(os.read(self.fd,1))
         while self.new_data(0.0):
             out.append(os.read(self.fd,1))
-        print out   
+        #print out   
         return(out)
 
     def get_num_chars(self,timeout=0):
@@ -55,14 +55,14 @@ class Keys():
     LEFT_ARROW= [27, 91, 68]
     number0=[48]
     number1=[49]
-    number2=[51]
-    number3=[52]
-    number4=[53]
-    number5=[54]
-    number6=[55]
-    number7=[56]
-    number8=[57]
-    number9=[58]
+    number2=[50]
+    number3=[51]
+    number4=[52]
+    number5=[53]
+    number6=[54]
+    number7=[55]
+    number8=[56]
+    number9=[57]
     cap_a=[65]
     cap_b=[66]
     cap_c=[67]

@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from numpy import sign, cross, arccos, arcsin, array, cos, sin, tan, arctan2, pi
+from numpy import sign, cross, arccos, arcsin, array, cos, sin, tan, arctan2, pi, dot
 from numpy.linalg import norm
 
 def angle_from_a_to_b(a,b):

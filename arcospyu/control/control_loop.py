@@ -24,6 +24,10 @@ class Controlloop(object):
         self.cont=True
         self.count=0
         self.localtime=0.
+        self.time_scale=1.0
+
+    def set_time_scale(self, scale):
+        self.time_scale=scale
 
     def set_params(self,params):
         '''Put the variables used by process here'''
@@ -39,14 +43,14 @@ class Controlloop(object):
 
     def loop(self,**params):
         self.set_params(params)
-        init_time=time.time()
+        init_time=time.time()*self.time_scale
         self.next_time=init_time
         while self.cont:
             self.process()
             self.count+=1
             self.localtime+=self.period
             self.next_time=self.next_time+1./self.freq
-            wait_time=self.next_time-time.time()
+            wait_time=self.next_time-time.time()*self.time_scale
             if wait_time>0.:
                 time.sleep(wait_time)
             else:

@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from subprocess import Popen
+from subprocess32 import Popen
 from time import time, sleep
 import signal
 import arcospyu.dprint
@@ -27,11 +27,12 @@ import sys, os
 from arcospyu.print_colors import Pcolors as c
 
 def preexec(): # Don't forward signals.
-    os.setpgrp()
+    os.setsid()
+    #os.setpgrp()
 
 class MyPopen(Popen):
-    def __init__(self, cargs, *args):
-        Popen.__init__(self, cargs, *args, preexec_fn = preexec)
+    def __init__(self, cargs, *args, **kwargs):
+        Popen.__init__(self, cargs, *args, start_new_session=True)
         self.args = cargs
 
     def wait2(self,sec):

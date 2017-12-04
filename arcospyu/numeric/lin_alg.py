@@ -70,3 +70,11 @@ def vector_saturation2(vector1, vector2, vector_test):
         else:
             return(vector_testn)
 
+def cyl_to_cart(angle, radius):
+    while angle<0.0:
+        angle+=2.0*pi
+    while angle>=2.0*pi:
+        angle-=2.0*pi
+    x=radius*cos(angle)
+    y=radius*sin(angle)
+    return([x,y])

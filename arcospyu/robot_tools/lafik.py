@@ -103,8 +103,7 @@ class Lafik(object):
         self.forces= array([0.0] * 6)
         self._qdot_list = array([0.0] * self.nJoints)
         self._jac = Jacobian(self.nJoints)
-        
-
+        self._kdlframe_tmp = Frame()
 
     def _get_qdot(self):
         return(self._qdot_list)
@@ -121,29 +120,27 @@ class Lafik(object):
         return self.joints[i]
 
     def _get_kdlframe(self):
-        kdlframe = Frame()
-        self.fk_solver.JntToCart(self.jnt_pos, kdlframe)
-
-        return kdlframe
+        self.fk_solver.JntToCart(self.jnt_pos, self._kdlframe_tmp)
+        return self._kdlframe_tmp
 
     kdlframe = property(_get_kdlframe)
 
     def _get_frame(self):
-        kdlframe = self._get_kdlframe()
-        frame = []
+        self._kdlframe = self._get_kdlframe()
+        self._frame = []
         for i in range(16):
             row = int(i/4)
             column = int(i - row*4)
             if row < 3:
                 if column != 3:
-                    frame.append(kdlframe.M[row,column])
+                    self._frame.append(float(self._kdlframe.M[row,column]))
                 else:
-                    frame.append(kdlframe.p[row])
+                    self._frame.append(float(self._kdlframe.p[row]))
             elif column == 3:
-                frame.append(1)
+                self._frame.append(1)
             else:
-                frame.append(0) 
-        return frame
+                self._frame.append(0)
+        return self._frame
 
     frame = property(_get_frame)
 

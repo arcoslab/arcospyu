@@ -17,6 +17,8 @@
 
 import yarp
 yarp.Network.init()
+cstyle=yarp.ContactStyle()
+cstyle.persistent=True
 import time
 __yarp_binary="yarp"
 
@@ -102,7 +104,8 @@ def yarp_connect_blocking(srcPort,dstPort,timeout=20.0, carrier='tcp'):
                 #Repeat connect after a sec
                 time.sleep(0.5)
                 yarp.Network.connect(srcPort, dstPort, carrier)
-                
+            time.sleep(0.5)
+            yarp.Network.connect(srcPort, dstPort, cstyle)
             return(True)
         else:
             print("yarp_connect_blocking: TIMEOUT")

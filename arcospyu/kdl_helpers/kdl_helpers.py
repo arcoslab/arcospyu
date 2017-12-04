@@ -67,7 +67,11 @@ def kdl_rot_mat_to_narray(kdl_rot_mat):
 def rot_vector_angle(vector,angle):
     kdl_vector=PyKDL.Vector(vector[0],vector[1],vector[2])
     return(kdl_rot_mat_to_narray(PyKDL.Rotation.Rot(kdl_vector,angle)))
-            
+
+def kdl_rot_vector_angle(vector,angle):
+    kdl_vector=PyKDL.Vector(vector[0],vector[1],vector[2])
+    return(PyKDL.Rotation.Rot(kdl_vector,angle))
+
     
 def my_adddelta(frame,twist,dt):
     return(kdlframe_to_narray(PyKDL.addDelta(narray_to_kdlframe(frame),

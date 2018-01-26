@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 # Copyright (c) 2013 Federico Ruiz-Ugalde
 # Author: Federico Ruiz Ugalde <memeruiz at gmail.com>
 #
@@ -17,53 +18,52 @@
 
 import time
 
+
 class Controlloop(object):
-    def __init__(self,freq):
-        self.freq=freq
-        self.period=1./freq
-        self.cont=True
-        self.count=0
-        self.localtime=0.
-        self.time_scale=1.0
+    def __init__(self, freq):
+        self.freq = freq
+        self.period = 1. / freq
+        self.cont = True
+        self.count = 0
+        self.localtime = 0.
+        self.time_scale = 1.0
 
     def set_time_scale(self, scale):
-        self.time_scale=scale
+        self.time_scale = scale
 
-    def set_params(self,params):
-        '''Put the variables used by process here'''
+    def set_params(self, params):
+        """Put the variables used by process here"""
         pass
 
     def process(self):
-        '''Do stuff, set cont to False to stop processing'''
+        """Do stuff, set cont to False to stop processing"""
         pass
 
     def end(self):
-        '''Do final stuff'''
+        """Do final stuff"""
         pass
 
-    def loop(self,**params):
+    def loop(self, **params):
         self.set_params(params)
-        init_time=time.time()*self.time_scale
-        self.next_time=init_time
+        init_time = time.time() * self.time_scale
+        self.next_time = init_time
         while self.cont:
             self.process()
-            self.count+=1
-            self.localtime+=self.period
-            self.next_time=self.next_time+1./self.freq
-            wait_time=self.next_time-time.time()*self.time_scale
-            if wait_time>0.:
+            self.count += 1
+            self.localtime += self.period
+            self.next_time = self.next_time + 1. / self.freq
+            wait_time = self.next_time - time.time() * self.time_scale
+            if wait_time > 0.:
                 time.sleep(wait_time)
             else:
                 pass
-                print "Warning: Cycle too slow", -wait_time, "Seconds late"
+                print 'Warning: Cycle too slow', -wait_time, 'Seconds late'
         self.end()
 
+
 def main():
-    return(False)
+    return (False)
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
-
-

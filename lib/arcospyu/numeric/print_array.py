@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright (c) 2009 Technische Universitaet Muenchen, Informatik Lehrstuhl IX.
 # Author: Federico Ruiz-Ugalde
 #
@@ -14,11 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-def print_array(name,data,newline=True,total_digits=4,decimals=3):
-    pattern="%"+str(total_digits)+"."+str(decimals)+"f"
-    print name,"[",
-    for i in data: print(pattern %i),
+
+def print_array(name, data, newline=True, total_digits=4, decimals=3):
+    pattern = '%' + str(total_digits) + '.' + str(decimals) + 'f'
+    print name, '[',
+    for i in data:
+        print(pattern % i),
     if newline:
-        print "]"
+        print ']'
     else:
-        print "]",
+        print ']',

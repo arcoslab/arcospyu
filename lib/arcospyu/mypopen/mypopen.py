@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # Copyright (c) 2013
 # Author: Federico Ruiz-Ugalde <memeruiz at gmail.com>
 #
@@ -18,48 +19,55 @@
 from subprocess32 import Popen
 from time import time, sleep
 import signal
-import arcospyu.dprint
-from arcospyu.dprint import iprint, dprint, eprint
-#from arcospyu.dprint import Dprint
-#d=Dprint()
-#dprint=d.dprint
-import sys, os
-from arcospyu.print_colors import Pcolors as c
+# import arcospyu.dprint
+from arcospyu.dprint import dprint, eprint
+# from arcospyu.dprint import Dprint
+# d=Dprint()
+# dprint=d.dprint
+# import sys
+import os
+# from arcospyu.print_colors import Pcolors as c
 
-def preexec(): # Don't forward signals.
+
+def preexec():  # Don't forward signals.
     os.setsid()
-    #os.setpgrp()
+    # os.setpgrp()
+
 
 class MyPopen(Popen):
     def __init__(self, cargs, *args, **kwargs):
         Popen.__init__(self, cargs, *args, start_new_session=True)
         self.args = cargs
 
-    def wait2(self,sec):
+    def wait2(self, sec):
         self.poll()
-        inittime=time()
-        while self.returncode == None:
+        inittime = time()
+        while self.returncode is None:
             self.poll()
             sleep(0.1)
-            elapsed=time()-inittime
+            elapsed = time() - inittime
             if elapsed > sec:
-                return()
+                return ()
 
     def wait_and_kill(self, sec):
         self.wait2(sec)
-        if self.returncode == None:
-            eprint(self.args[0]+" TERM signal didn't worked, escalating to KILL")
+        if self.returncode is None:
+            eprint(
+                self.args[0] + " TERM signal didn't worked, escalating to KILL"
+            )
             self.send_signal(signal.SIGKILL)
 
     def term_wait_kill(self, sec):
         self.poll()
-        if self.returncode == None:
-            dprint("Sending signal ", signal.SIGTERM, " to subprocess ", self.args[0])
+        if self.returncode is None:
+            dprint(
+                "Sending signal ", signal.SIGTERM, " to subprocess ",
+                self.args[0])
             self.send_signal(signal.SIGTERM)
             self.wait_and_kill(sec)
 
     def send_signal2(self, sig):
         self.poll()
-        if self.returncode == None:
+        if self.returncode is None:
             dprint("Sending signal ", sig, " to subprocess ", self.args[0])
             self.send_signal(sig)

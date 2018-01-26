@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # Copyright (c) 2013 Federico Ruiz-Ugalde
 # Author: Federico Ruiz Ugalde <memeruiz at gmail.com>
 #
@@ -14,6 +15,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 
 class Pcolors:
     HEADER = '\033[95m'

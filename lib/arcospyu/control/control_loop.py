@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2013 Federico Ruiz-Ugalde
 # Author: Federico Ruiz Ugalde <memeruiz at gmail.com>
@@ -59,11 +58,3 @@ class Controlloop(object):
                 pass
                 print 'Warning: Cycle too slow', -wait_time, 'Seconds late'
         self.end()
-
-
-def main():
-    return (False)
-
-
-if __name__ == '__main__':
-    main()

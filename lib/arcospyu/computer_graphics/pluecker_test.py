@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009 Technische Universitaet Muenchen, Informatik Lehrstuhl IX.
 # Author: Federico Ruiz-Ugalde <ruizf at in.tum.de>

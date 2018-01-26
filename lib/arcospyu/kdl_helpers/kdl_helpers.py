@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009 Technische Universitaet Muenchen, Informatik Lehrstuhl IX.
 # Authors: Alexis Maldonado Herrera <maldonad at cs.tum.edu> Federico Ruiz Ugalde <memeruiz@gmail.com> # noqa
@@ -108,11 +107,3 @@ def rpy_to_rot_matrix(roll_pitch_yaw):
     kdl_matrix = PyKDL.Rotation.RPY(
         roll_pitch_yaw[0], roll_pitch_yaw[1], roll_pitch_yaw[2])
     return (kdl_rot_mat_to_narray(kdl_matrix))
-
-
-def main():
-    return (False)
-
-
-if __name__ == '__main__':
-    main()

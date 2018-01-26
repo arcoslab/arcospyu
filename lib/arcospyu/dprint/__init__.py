@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from dprint import Dprint
 
@@ -9,11 +8,3 @@ wprint = d.wprint
 eprint = d.eprint
 dcprint = d.dcprint
 dlevel = d.level
-
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()

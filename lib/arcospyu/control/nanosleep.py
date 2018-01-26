@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #
@@ -38,13 +37,3 @@ def nanosleep(sec, nsec):
     remaining = timespec()
     libc.nanosleep(sleeptime, remaining)
     return (remaining.secs, remaining.nsecs)
-
-
-def main():
-    print('Going to sleep 1 second:')
-    nanosleep(1, 0)
-    print('.')
-
-
-if __name__ == '__main__':
-    main()

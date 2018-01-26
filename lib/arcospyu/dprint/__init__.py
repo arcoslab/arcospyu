@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from dprint import Dprint
+from __future__ import absolute_import
+from .dprint import Dprint
 
 d = Dprint()
 iprint = d.iprint

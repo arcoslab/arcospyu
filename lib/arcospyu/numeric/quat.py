@@ -18,6 +18,7 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import absolute_import
+from __future__ import print_function
 
 __all__ = ['norm', 'qinv', 'qmul', 'qrot', 'qnull']
 
@@ -61,7 +62,7 @@ def qmul_accumulate(qs_):
 
 def qrot(q, v):
     """Rotate vector by quaternion"""
-    print 'QROT', q, v
+    print('QROT', q, v)
     return qmul(qmul(q, hstack((v, [0]))), qinv(q))[:3]
 
 

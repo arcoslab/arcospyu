@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from numpy import array, identity, dot, pi, cos, sin
 from numpy.linalg import norm
 from numpy.random import normal
@@ -75,7 +76,7 @@ def random_homo_matrix(
         loc=array(center_pos), scale=noise_level[:3], size=(3))
     random_angles = normal(loc=array(center_angles), scale=noise_level[2])
     table_object_normal = -array(self.box_planes[self.table_object_face][0])
-    print 'table normal', table_object_normal
+    print('table normal', table_object_normal)
     random_rot_frame = identity(4)
     random_rot_frame[:2, 3] = 0 * array([0.0, 0.01])  # camera offset error
     random_rot_frame[:3, :3] = rot_vector_angle(

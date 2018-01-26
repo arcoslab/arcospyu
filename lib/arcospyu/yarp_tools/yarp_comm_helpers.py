@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import yarp
 import time
 import types
@@ -81,12 +82,12 @@ def yarp_queryname_blocking(port, timeout):
 
             if (ret == 1):
                 # it did not answer
-                print 'Port did not answer ping. Process busy, or maybe you should call \'yarp clean\'? (%s)--------------' % ( # noqa
-                    port)
+                print('Port did not answer ping. Process busy, or maybe you should call \'yarp clean\'? (%s)--------------' % ( # noqa
+                    port))
 
         else:
             if (msg_counter == 0):
-                print 'Waiting for %s' % (port)
+                print('Waiting for %s' % (port))
 
         if ((time.time() - startTime) > timeout):
             trying = False
@@ -100,7 +101,7 @@ def yarp_queryname_blocking(port, timeout):
 
 
 def yarp_connect_blocking(srcPort, dstPort, timeout=20.0, carrier='tcp'):
-    print 'Connecting %s to %s' % (srcPort, dstPort)
+    print('Connecting %s to %s' % (srcPort, dstPort))
     startTime = time.time()
     try:
         found_src = yarp_queryname_blocking(
@@ -122,23 +123,23 @@ def yarp_connect_blocking(srcPort, dstPort, timeout=20.0, carrier='tcp'):
             return (False)
 
     except KeyboardInterrupt:
-        print 'yarp_connect_blocking: KeyboardInterrupt -> not connecting ports!' # noqa
+        print('yarp_connect_blocking: KeyboardInterrupt -> not connecting ports!') # noqa
         raise
 
 
 def recur(bottle, ilist):
     for item in ilist:
-        if isinstance(item, types.FloatType):
+        if isinstance(item, float):
             bottle.addDouble(item)
-        elif isinstance(item, types.IntType):
+        elif isinstance(item, int):
             bottle.addInt(item)
-        elif isinstance(item, types.StringType):
+        elif isinstance(item, bytes):
             bottle.addString(item)
-        elif isinstance(item, types.ListType):
+        elif isinstance(item, list):
             bottlelist = bottle.addList()
             recur(bottlelist, item)
         else:
-            print 'Data type not allowed'
+            print('Data type not allowed')
 
 
 def sendListPort(yarpPort, ilist):
@@ -291,7 +292,7 @@ def main():
             options.port_to_read_from,
             input.getName().c_str())
         b_in = input.read()
-        print b_in.toString()
+        print(b_in.toString())
         input.close()
 
     try:
@@ -304,23 +305,23 @@ def main():
         if (options.ports_to_connect != ''):
             ports = options.ports_to_connect.split('%')
             if (len(ports) != 2):
-                print 'Error: Need two ports to connect. Example: sourceport:destport' # noqa
+                print('Error: Need two ports to connect. Example: sourceport:destport') # noqa
                 # raise NameError('Portnames missing')
                 return (False)
 
-            print 'Connecting %s to %s.' % (ports[0], ports[1])
+            print('Connecting %s to %s.' % (ports[0], ports[1]))
             ret = yarp_connect_blocking(
                 ports[0], ports[1], float(options.timeout), options.carrier)
             if (ret):
-                print 'Success!'
+                print('Success!')
             else:
-                print 'Failed'
+                print('Failed')
 
             return (ret)
 
-    except Exception, e:
-        print 'Exception! %r' % (e)
-        print '__yarp_binary = %r' % (__yarp_binary)
+    except Exception as e:
+        print('Exception! %r' % (e))
+        print('__yarp_binary = %r' % (__yarp_binary))
         return (False)
 
 

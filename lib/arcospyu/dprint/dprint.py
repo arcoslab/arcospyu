@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from arcospyu.print_colors import Pcolors as c
 import inspect as ins
 
@@ -42,36 +43,36 @@ class Dprint(object):
 
     def iprint(self, *args):
         if self.level <= 0:
-            print '[' + self.pfile() + ']',
+            print('[' + self.pfile() + ']', end=' ')
             for arg in args:
-                print arg,
-            print
+                print(arg, end=' ')
+            print()
 
     def dprint(self, *args):
         if self.level <= 1:
-            print c.GREEN + '[' + self.pfile() + ']',
+            print(c.GREEN + '[' + self.pfile() + ']', end=' ')
             for arg in args:
-                print arg,
-            print c.END
+                print(arg, end=' ')
+            print(c.END)
 
     def dcprint(self, *args):
         if self.level <= 1:
-            print c.GREEN + '[' + self.pfile(
-                call_level=self.CALL_LEVEL_LAST_FILE) + ']',
+            print(c.GREEN + '[' + self.pfile(
+                call_level=self.CALL_LEVEL_LAST_FILE) + ']', end=' ')
             for arg in args:
-                print arg,
-            print c.END
+                print(arg, end=' ')
+            print(c.END)
 
     def wprint(self, *args):
         if self.level <= 2:
-            print c.YELLOW + '[' + self.pfile() + ']',
+            print(c.YELLOW + '[' + self.pfile() + ']', end=' ')
             for arg in args:
-                print arg,
-            print c.END
+                print(arg, end=' ')
+            print(c.END)
 
     def eprint(self, *args):
         if self.level <= 3:
-            print c.RED + '[' + self.pfile() + ']',
+            print(c.RED + '[' + self.pfile() + ']', end=' ')
             for arg in args:
-                print arg,
-            print c.END
+                print(arg, end=' ')
+            print(c.END)

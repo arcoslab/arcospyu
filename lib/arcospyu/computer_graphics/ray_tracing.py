@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from numpy import dot, array
 from numpy.linalg import norm
 from arcospyu.computer_graphics.pluecker_test import (
@@ -37,7 +38,7 @@ def most_far_away_face_from_point(
         touch_point = dot(
             crossing_faces_reference_frame,
             homo_matrix(trans=touch_point_local))[:3, 3]
-        print 'Touch point', face, touch_point
+        print('Touch point', face, touch_point)
         cur_dist = norm(touch_point - point)
         if dist < 0.:
             dist = cur_dist
@@ -105,7 +106,7 @@ def find_crossing_faces(vector, vector_pos, vertices_faces, planes):
                 array(planes[face][0]), array(planes[face][1]), vector,
                 vector_pos)
             intersection[0] *= norm(vector)
-            print 'intersection', intersection
+            print('intersection', intersection)
             crossing_faces[face] = [vertices_faces[face], temp, intersection]
-    print 'crossing_faces', crossing_faces
+    print('crossing_faces', crossing_faces)
     return (crossing_faces)

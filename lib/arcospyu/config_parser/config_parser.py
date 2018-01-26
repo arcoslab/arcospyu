@@ -21,20 +21,22 @@
 # using object.parser.add_option as explained in the optparse python
 # documentation and then using get_all() method to obtain the parsed output
 
+from __future__ import print_function
 import optparse
 import sys
 import os
+from functools import reduce
 
 
 def import_config(filename):
     config_filename_path = reduce(
         lambda x, y: x + "/" + y,
         filename.split("/")[:-1])
-    print "Dir", config_filename_path
+    print("Dir", config_filename_path)
     config_filename_name = filename.split("/")[-1]
-    print "ConfigFilename name:", config_filename_name
+    print("ConfigFilename name:", config_filename_name)
     if not os.path.exists(filename):
-        print "Config filename: ", config_filename_name, " not found, exiting"
+        print("Config filename: ", config_filename_name, " not found, exiting")
         sys.exit(-1)
     sys.path.append(config_filename_path)
     config = __import__(

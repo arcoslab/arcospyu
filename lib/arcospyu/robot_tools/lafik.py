@@ -24,6 +24,7 @@
 # complete the task. It doesn't reconfigure completely the articulator to solve
 # the problem, therefore is a local solution.
 
+from __future__ import print_function
 import sys
 from PyKDL import *
 from math import pi
@@ -170,14 +171,14 @@ class Lafik(object):
                 self.jnt_pos[i] = qin[i]
             for i in range(self.jnt_pos.rows() - len(qin)):
                 j = len(qin) + i
-                print 'Warning: Setting joint %d to 0' % (j)
+                print('Warning: Setting joint %d to 0' % (j))
                 self.jnt_pos[j] = 0
             # self.qdotSign=self.estimqDotSign(self.jntToList(self.jnt_pos),self.jntToList(self.jnt_posOld))
             self.updateJntLimits()
             # self.update_joint_weights(self.qdotSign)
             return True
         else:
-            print 'Error: Wrong number of joint angles'
+            print('Error: Wrong number of joint angles')
             return False
 
     def estimqDotSign(self, qnew, qold):
@@ -267,7 +268,7 @@ class Lafik(object):
                 change += abs(delta_twist[i])
 
             if (abs(change) < eps):
-                print 'Iter = %r' % (iter)
+                print('Iter = %r' % (iter))
                 for i in range(self.nJoints):
                     q_out[i] = normalize_angle(q_out[i])
 
@@ -313,7 +314,7 @@ class Lafik(object):
             # print 'Delta_q: '+str(delta_q)
 
             if (iter > maxiter):
-                print 'IK: Did not converge'
+                print('IK: Did not converge')
                 return False
 
     def jac(self):
@@ -332,7 +333,7 @@ class Lafik(object):
         if weights.shape == (self.nJoints, self.nJoints):
             self.jweights = weights
         else:
-            print 'ERROR: set_jweights, wrong length'
+            print('ERROR: set_jweights, wrong length')
 
     def set_tweights(self, weights):
         if weights.shape == (task_dim, task_dim):
@@ -472,7 +473,7 @@ def main():
     if len(args) == 1 and (args[0] == 'pfk' or args[0] == 'ik'):
         basename = '/' + args[0]
     else:
-        print 'usage: ./robot.py [pfk|ik]'
+        print('usage: ./robot.py [pfk|ik]')
         sys.exit()
 
     port_in = yarp.BufferedPortBottle()
@@ -505,7 +506,7 @@ def main():
         for i in range(len(data_out)):
             bottle.addDouble(data_out[i])
         port_out.write()
-    print 'quitting'
+    print('quitting')
 
 
 if __name__ == '__main__':

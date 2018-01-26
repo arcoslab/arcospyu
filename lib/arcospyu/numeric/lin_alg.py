@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from numpy import (
     sign, cross, arccos, arcsin, array, cos, sin, tan, arctan2, pi, dot)
 from numpy.linalg import norm
@@ -35,9 +36,9 @@ def vector_saturation(vector_min, vector_max, vector):
         dot(vector, vector_max) / (norm(vector) * norm(vector_max)))
     angle_min = arccos(
         dot(vector, vector_min) / (norm(vector) * norm(vector_min)))
-    print 'angles', angle_min_max, angle_max, angle_min
+    print('angles', angle_min_max, angle_max, angle_min)
     if (angle_max > angle_min_max) or (angle_min > angle_min_max):
-        print 'limiting'
+        print('limiting')
         if angle_max < angle_min:
             return (vector_max)
         else:
@@ -63,7 +64,7 @@ def vector_saturation2(vector1, vector2, vector_test):
         # test is done using vector1n
         proj_vector2n_in_1n = dot(vector1n, vector2n)
         if proj_vector1n < proj_vector2n_in_1n:
-            print 'Vector outside vector2n', vector2n
+            print('Vector outside vector2n', vector2n)
             return (vector2n)
         else:
             return (vector_testn)
@@ -71,7 +72,7 @@ def vector_saturation2(vector1, vector2, vector_test):
         # test using vector2n
         proj_vector1n_in_2n = dot(vector2n, vector1n)
         if proj_vector2n < proj_vector1n_in_2n:
-            print 'Vector outside vector1n', vector1n
+            print('Vector outside vector1n', vector1n)
             return (vector1n)
         else:
             return (vector_testn)

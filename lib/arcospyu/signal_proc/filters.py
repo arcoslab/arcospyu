@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from scipy.signal import iirfilter, lfilter, lfiltic
 from numpy import array
 
@@ -43,13 +44,13 @@ class Filter():
     def __init__(self, order=2, freq=0.7, y=[], x=[]):
         self.b, self.a = iirfilter(order, freq, btype='lowpass')
         if len(y) > 0:
-            print 'here'
+            print('here')
             self.z = lfiltic(self.b, self.a, y)
         else:
             self.z = array([0.] * order)
         self.z = lfiltic(self.b, self.a, y, x=x)
 
     def filter(self, raw_data):
-        print 'Raw', array(raw_data)
+        print('Raw', array(raw_data))
         y, self.z = lfilter(self.b, self.a, raw_data, zi=self.z, axis=0)
         return (y)

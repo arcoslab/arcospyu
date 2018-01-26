@@ -19,6 +19,7 @@
 # http://www.cgafaq.info/wiki/Plucker_Coordinates also on the wikipedia of
 # course
 
+from __future__ import print_function
 import numpy as n
 
 
@@ -63,23 +64,23 @@ def trianglePlueckerTest(
     t0 = n.inner(e0, R)
     t1 = n.inner(e1, R)
     t2 = n.inner(e2, R)
-    print 't0: ', t0  # If zero, means is touching line B-A
-    print 't1: ', t1  # If zero, means, is touching line C-A
-    print 't2: ', t2  # If zero, measn, is touching line C-B
+    print('t0: ', t0)  # If zero, means is touching line B-A
+    print('t1: ', t1)  # If zero, means, is touching line C-A
+    print('t2: ', t2)  # If zero, measn, is touching line C-B
 
     # if the signs are all the same it means the ray passes through the
     # triangle if any t0 is 0 or near 0 it means the ray passes throught the
     # line or is parallel to the line (passes through the line in infinity)
 
     if ((t0 > 0 and t1 > 0 and t2 > 0) or (t0 < 0 and t1 < 0 and t2 < 0)):
-        print 'Inside'
+        print('Inside')
         return 1
     elif ((t0 > -epsilon and t0 < epsilon) or (t1 > -epsilon and t1 < epsilon)
           or (t2 > -epsilon and t2 < epsilon)):
-        print 'On line'
+        print('On line')
         return 0
     else:
-        print 'Outside'
+        print('Outside')
         return -1
 
 

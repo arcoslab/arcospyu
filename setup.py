@@ -45,10 +45,10 @@ setup(
     version=find_version('lib/arcospyu/__init__.py'),
     package_dir={'': 'lib'},
     packages=find_packages('lib'),
-    scripts=['arcospyu/yarp_tools/bar_vis'],
+    scripts=['scripts/bar_vis'],
 
     # Dependencies
-    install_requires=find_requirements('requirements.txt'),
+    install_requires=[],
 
     # Metadata
     author='Federico Ruiz Ugalde',

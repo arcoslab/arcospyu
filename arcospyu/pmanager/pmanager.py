@@ -54,9 +54,12 @@ class PManager(object):
                 eprint("Executable", process_args[0], " not found, not starting process")
             #sleep(3)
 
-    def monitor(self):
+    def monitor(self, blocking=True):
         stop=False
-        while not stop:
+        once=False
+        while (not stop) and (not once):
+            if not blocking:
+                once=True
             for process in self.processes:
                 process.poll()
                 if process.returncode != None:
@@ -66,6 +69,9 @@ class PManager(object):
             #dprint("Looping")
         if stop:
             self.stop()
+            return(True)
+        else:
+            return(False)
 
     def stop(self, sec=10):
         iprint("Sending signal ", signal.SIGTERM, " to subprocesses")

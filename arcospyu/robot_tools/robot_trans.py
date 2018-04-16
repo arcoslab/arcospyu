@@ -18,6 +18,7 @@
 from numpy import array, identity, dot, pi, cos, sin
 from numpy.linalg import norm
 from numpy.random import normal
+from arcospyu.kdl_helpers import rpy_to_rot_matrix
 
 
 def add_noise_to_pose(pose, dist_noise=0.02, angle_noise=5.0*pi/180.0):

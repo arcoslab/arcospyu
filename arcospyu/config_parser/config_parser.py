@@ -40,6 +40,8 @@ class ConfigFileParser(object):
         self.argv=argv
         self.parser=optparse.OptionParser("usage: %prog [options]")
         self.parser.add_option("-c", "--configfilename", dest="config_filename", default="config.py", type="string", help="config filename")
+        self.parser.add_option("-n", "--namespace", dest="namespace", default="/0", type="string", help="ARCOS-Lab yarp basename")
+
 #        self.parser.add_option("-s", "--simulation", action="store_true", dest="sim", default=False,help="Simulation")
 
     def parse(self):

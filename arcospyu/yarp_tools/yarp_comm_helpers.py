@@ -22,6 +22,147 @@ cstyle.persistent=True
 import time
 __yarp_binary="yarp"
 
+class ArcosYarpPort(object):
+    def __init__(self):
+        self._port=yarp.BufferedPortBottle()
+
+    def open(self, name):
+        self._port.open(name)
+
+    def read(self, blocking=True):
+        return(self._port.read(blocking))
+
+    def write(self, forceStrict=False):
+        return(self._port.write(forceStrict))
+
+    def writeStrict(self):
+        return(self.write(forceStrict=True))
+
+class ArcosYarpConnectionPair(object):
+    def __init__(self, name1, name2, connected_state=False):
+        self._connected_state=connected_state
+        ##TODO: hash compare
+
+class ArcosYarp(object):
+    """ A class for yarp port management.
+
+    The user can:
+    1) create new yarp ports
+    2) request new yarp port connections
+    3) check weather such connections are alive
+
+    The class will automatically:
+    1) Maintain a list of port connections that were requested in the current module
+    2) Provide a status port that will accept the following commands:
+       a) get current requested connections: get_connections
+       b) all connections ready? (indicates if all connections are currently made): isready
+    """
+
+    def __init__(self, ports_name_prefix="/0", module_name_prefix=""):
+        """ Create an Arcoslab yarp object
+
+        ports_name_prefix: used as a namespace for running a complete system
+        module_name_prefix: used as base name for all ports in this module
+        """
+        self._ports_name_prefix=ports_name_prefix
+        self._module_name_prefix=module_name_prefix
+        self._connections={}
+        self._ports=[]
+        #create a connection status port
+        self._create_con_status_port()
+
+    def _create_con_status_port(self):
+        self._con_status_port=yarp.BufferedPortBottle()
+        port_name=self._ports_name_prefix+self._module_name_prefix+"/con_status"
+        self._con_status_port.setStrict(True)
+        self._con_status_port.open(port_name)
+
+    def _del_con_status_port(self):
+        self._con_status_port.close()
+        del self._con_status_port
+
+    def create_yarp_port(self, name, input_port=True, strict=True, full_name=False):
+        """ Create a yarp port """
+        port = yarp.BufferedPortBottle()
+        if not full_name:
+            port_name=self._ports_name_prefix+self._module_name_prefix+name
+        else:
+            port_name=name
+        if strict:
+            port.setStrict(True)
+        port.open(port_name)
+        self._ports.append((port, input_port, port_name))
+        return(port)
+
+    def update_connections_state(self):
+        for connection in self._connections:
+            state=yarp.Network.isConnected(connection[0], connection[1])
+            print "For connection: ", connection, " State: ", state
+            self._connections[connection][0]=state
+
+    def is_ready(self):
+        self.update_connections_state()
+        ready=True
+        for state, necessary in self._connections.values():
+            if necessary:
+                if state==False:
+                    ready=False
+                    break
+        #ready=all(self._connections.values())
+        if ready:
+            print "All connections ready"
+        else:
+            print "Not all connections ready"
+        return(ready)
+
+    def update(self):
+        bottle=self._con_status_port.read(False)
+        if bottle:
+            cmd=bottle.get(0).toString()
+            outbottle=self._con_status_port.prepare()
+            outbottle.clear()
+            if cmd=="isready":
+                ready=self.is_ready()
+                print "Requested yarp ready state: ", ready
+                if ready:
+                    outbottle.addString("ready")
+                else:
+                    outbottle.addString("not_ready")
+            elif cmd=="get_connections":
+                for connection in self._connections:
+                    conbottle=outbottle.addList()
+                    conbottle.addString(connection[0])
+                    conbottle.addString(connection[1])
+                    conbottle.addString(str(self._connections[connection]))
+            else:
+                print "Unknown command, returning Error"
+                outbottle.addString("Error")
+            self._con_status_port.writeStrict()
+
+    def connect(self, local_port, remote_module, remote_name, necessary=True):
+        cstyle=yarp.ContactStyle()
+        cstyle.persistent=True
+        for port_entry in self._ports:
+            if port_entry[0]==local_port:
+                break
+        if port_entry[1]:
+            #input port
+            yarp.Network.connect(self._ports_name_prefix+remote_module+remote_name, port_entry[2], cstyle)
+            self._connections[(self._ports_name_prefix+remote_module+remote_name, port_entry[2])]=[False, necessary]
+        else:
+            #output port
+            yarp.Network.connect(port_entry[2], self._ports_name_prefix+remote_module+remote_name, cstyle)
+            self._connections[(port_entry[2], self._ports_name_prefix+remote_module+remote_name)]=[False, necessary]
+        ## TODO: connections convert to own class to allow hash compares but also maintain connection state
+
+    def __del__(self):
+        #must delete all yarp ports
+        self._del_con_status_port()
+        while len(self._ports):
+            port_entry=self._ports.pop()
+            port_entry[0].close()
+            del port_entry[0]
+
 def change_ps_name(name):
     """Change process name as used by ps(1) and killall(1)."""
     try:

@@ -16,6 +16,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import yarp
+import time
 yarp.Network.init()
 cstyle=yarp.ContactStyle()
 cstyle.persistent=True
@@ -70,6 +71,7 @@ class ArcosYarp(object):
         self._ports=[]
         #create a connection status port
         self._create_con_status_port()
+        self._update_times=[time.time()]
 
     def _create_con_status_port(self):
         self._con_status_port=yarp.BufferedPortBottle()
@@ -116,6 +118,16 @@ class ArcosYarp(object):
         return(ready)
 
     def update(self):
+        if len(self._update_times)>10:
+            self._update_times.pop(0)
+        self._update_times.append(time.time())
+        avg_delta=0.0
+        for i, t in enumerate(self._update_times):
+            if i==0:
+                continue
+            else:
+                avg_delta+=t-self._update_times[i-1]
+        avg_delta/=10.0
         bottle=self._con_status_port.read(False)
         if bottle:
             cmd=bottle.get(0).toString()
@@ -134,6 +146,9 @@ class ArcosYarp(object):
                     conbottle.addString(connection[0])
                     conbottle.addString(connection[1])
                     conbottle.addString(str(self._connections[connection]))
+            elif cmd=="get_avg_cycle":
+                print "Requested avg cycle time: ", avg_delta
+                outbottle.addDouble(avg_delta)
             else:
                 print "Unknown command, returning Error"
                 outbottle.addString("Error")

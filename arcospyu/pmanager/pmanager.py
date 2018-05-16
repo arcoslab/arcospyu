@@ -65,7 +65,7 @@ class PManager(object):
                 if process.returncode != None:
                     eprint("Process: ", process.args[0], " died! Closing all processes")
                     stop=True
-            sleep(0.5)
+            sleep(0.003)
             #dprint("Looping")
         if stop:
             self.stop()

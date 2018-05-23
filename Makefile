@@ -6,7 +6,10 @@ all:
 	echo "Does nothing, try make install"
 
 install:
-	python setup.py install --prefix=${PREFIX}
+	PYTHONPATH=${HOME}/local/DIR/arcospyu/lib/python2.7/site-packages/ python setup.py install --prefix=${PREFIX}
+
+install_py3:
+	PYTHONPATH=${HOME}/local/DIR/arcospyu/lib/python3.6/site-packages/ python setup.py install --prefix=${PREFIX}
 
 xstow_install: install
 	cd ${PREFIX}/../ && xstow ${NAME}
